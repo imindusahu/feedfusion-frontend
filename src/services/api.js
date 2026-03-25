@@ -23,3 +23,13 @@ export const createArticle = async (data, token) => {
         },
     });
 };
+
+export const getNews = async (category = "technology") => {
+    try {
+        const response = await axios.get(`${API_URL}/news?category=${category}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching news:", error);
+        return [];
+    }
+};
