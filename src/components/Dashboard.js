@@ -1,82 +1,140 @@
-import React, { useEffect, useState } from "react";
-import { getArticles, createArticle } from "../services/api";
+import React, { useEffect, useState, useCallback } from "react";
+import { getNews } from "../services/api";
 
-const Dashboard = () => {
+function Dashboard() {
     const [articles, setArticles] = useState([]);
-    const [form, setForm] = useState({ title: "", content: "" });
+    const [category, setCategory] = useState("technology");
+    const [search, setSearch] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const token = localStorage.getItem("token");
+    const fetchArticles = useCallback(async () => {
+        setLoading(true);
 
-    const fetchArticles = async () => {
-        try {
-            const res = await getArticles(token);
-            setArticles(res.data);
-        } catch (err) {
-            alert("Failed to fetch articles");
-        }
-    };
+        const data = await getNews(category, search);
+
+        setArticles(data || []);
+        setLoading(false);
+    }, [category, search]);
 
     useEffect(() => {
         fetchArticles();
-    }, []);
+    }, [fetchArticles]);
 
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await createArticle(form, token);
-            alert("Article created!");
-            setForm({ title: "", content: "" });
-            fetchArticles(); // refresh list
-        } catch (err) {
-            alert(err.response?.data?.detail || "Error creating article");
-        }
-    };
 
     return (
-        <div className="container mt-5">
-            <h2>Create Article</h2>
+        <div style={{ padding: "20px", fontFamily: "Arial" }}>
+            <h1 style={{ textAlign: "center" }}>📰 Smart News Dashboard</h1>
 
-            <form onSubmit={handleSubmit}>
+            {/* 🔍 Search */}
+            <div style={{ textAlign: "center", marginBottom: "20px" }}>
                 <input
                     type="text"
-                    name="title"
-                    placeholder="Title"
-                    className="form-control mb-2"
-                    value={form.title}
-                    onChange={handleChange}
-                    required
+                    placeholder="Search news..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    style={{
+                        padding: "10px",
+                        width: "300px",
+                        borderRadius: "8px",
+                        border: "1px solid gray",
+                    }}
                 />
 
-                <textarea
-                    name="content"
-                    placeholder="Content"
-                    className="form-control mb-2"
-                    value={form.content}
-                    onChange={handleChange}
-                    required
-                />
+                <button
+                    onClick={fetchArticles}
+                    style={{
+                        marginLeft: "10px",
+                        padding: "10px 15px",
+                        borderRadius: "8px",
+                        backgroundColor: "#007bff",
+                        color: "white",
+                        border: "none",
+                        cursor: "pointer",
+                    }}
+                >
+                    Search
+                </button>
+            </div>
 
-                <button className="btn btn-success">Create</button>
-            </form>
-
-            <hr />
-
-            <h2>Your Articles</h2>
-
-            <ul className="list-group">
-                {articles.map((article) => (
-                    <li key={article.id} className="list-group-item">
-                        <strong>{article.title}</strong>
-                        <p>{article.content}</p>
-                    </li>
+            {/* 📂 Categories */}
+            <div style={{ textAlign: "center", marginBottom: "20px" }}>
+                {["technology", "business", "sports", "health"].map((cat) => (
+                    <button
+                        key={cat}
+                        onClick={() => setCategory(cat)}
+                        style={{
+                            margin: "5px",
+                            padding: "8px 12px",
+                            borderRadius: "6px",
+                            border: "none",
+                            backgroundColor: category === cat ? "#28a745" : "#ddd",
+                            color: category === cat ? "white" : "black",
+                            cursor: "pointer",
+                        }}
+                    >
+                        {cat}
+                    </button>
                 ))}
-            </ul>
+            </div>
+
+            {/* 📰 News Grid */}
+            <div
+                style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                    gap: "20px",
+                }}
+            >
+                {loading && (
+                    <p style={{ textAlign: "center", fontSize: "18px" }}>
+                        Loading news...</p>
+                )}
+
+
+                {articles.map((item, index) => (
+                    <div
+                        key={index}
+                        style={{
+                            border: "1px solid #ddd",
+                            borderRadius: "10px",
+                            padding: "15px",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                        }}
+                    >
+                        {item.image && (
+                            <img
+                                src={item.image}
+                                alt="news"
+                                style={{
+                                    width: "100%",
+                                    height: "180px",
+                                    objectFit: "cover",
+                                    borderRadius: "8px",
+                                }}
+                            />
+                        )}
+
+                        <h3 style={{ marginTop: "10px" }}>{item.title}</h3>
+                        <p>{item.description}</p>
+
+                        <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            style={{
+                                display: "inline-block",
+                                marginTop: "10px",
+                                color: "#007bff",
+                                textDecoration: "none",
+                            }}
+                        >
+                            Read More →
+                        </a>
+                    </div>
+                ))}
+            </div>
         </div>
     );
-};
+}
 
 export default Dashboard;
