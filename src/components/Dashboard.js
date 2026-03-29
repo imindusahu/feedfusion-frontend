@@ -32,7 +32,7 @@ function News() {
     const handleSave = async (item) => {
         try {
 
-            await createArticle({ title: item.title, content: item.description });
+            await createArticle({ title: item.title, content: item.description, source_url: item.url, image_url: item.image });
             toast.success("Article Saved!");
         } catch (err) {
             console.error(err);

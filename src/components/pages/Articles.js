@@ -137,9 +137,9 @@ function Article() {
                             }}
                         >
                             {/* 🖼 Image */}
-                            {/* {item.image && (
+                            {item.image_url && (
                                 <img
-                                    src={item.image}
+                                    src={item.image_url}
                                     alt="news"
                                     style={{
                                         width: "100%",
@@ -147,7 +147,7 @@ function Article() {
                                         objectFit: "cover"
                                     }}
                                 />
-                            )} */}
+                            )}
 
                             {/* 📄 Content */}
                             <div style={{ padding: "15px" }}>
@@ -167,7 +167,7 @@ function Article() {
                                     }}
                                 >
                                     {/* Read More */}
-                                    {/* <a
+                                    <a
                                         href={item.url}
                                         target="_blank"
                                         rel="noreferrer"
@@ -178,7 +178,7 @@ function Article() {
                                         }}
                                     >
                                         Read More →
-                                    </a> */}
+                                    </a>
 
                                     {/* Save Button (Styled) */}
                                     <button style={{
