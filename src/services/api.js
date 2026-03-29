@@ -17,6 +17,18 @@ API.interceptors.request.use((req) => {
 });
 
 
+API.interceptors.response.use(
+    res => res,
+    err => {
+        if (err.response?.status === 401) {
+            localStorage.removeItem("token");
+            window.location.href = "/login";
+        }
+        return Promise.reject(err);
+    }
+);
+
+
 // ---------------- AUTH ----------------
 
 export const registerUser = async (userData) => {
@@ -55,3 +67,9 @@ export const getNews = async (category = "", search = "") => {
         return [];
     }
 };
+
+export const saveArticle = (data) =>
+    API.post("/articles", data);
+
+export const getSavedArticles = () =>
+    API.get("/articles");
