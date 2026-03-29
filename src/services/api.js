@@ -29,6 +29,11 @@ API.interceptors.response.use(
 );
 
 
+export const getProfile = async () => {
+    const res = await API.get("/profile"); // your backend endpoint
+    return res.data;
+};
+
 // ---------------- AUTH ----------------
 
 export const registerUser = async (userData) => {
@@ -68,6 +73,10 @@ export const createArticle = async (data) => {
 };
 
 export const deleteArticle = async (data) => {
+
+};
+
+export const updateArticle = async (data) => {
 
 };
 

@@ -1,15 +1,31 @@
 import { Link, useNavigate } from "react-router-dom";
 import { isAuthenticated, logout } from "../utils/auth";
+import { useEffect, useState } from "react";
+import { getProfile } from "../services/api";
 
 const Navbar = () => {
     const navigate = useNavigate();
     const isLoggedIn = isAuthenticated();
-
+    const [user, setUser] = useState(null);
     const handleLogout = () => {
         logout();
         navigate("/login");
     };
 
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const data = await getProfile();
+                setUser(data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        if (isLoggedIn) {
+            fetchUser();
+        }
+    }, [isLoggedIn]);
     return (
         <nav style={{
             background: "#281616",
@@ -37,6 +53,10 @@ const Navbar = () => {
                             {/* ✅ THIS IS YOUR ARTICLES PAGE LINK */}
                             <Link to="/articles" style={linkStyle}>  Articles </Link>
                             <Link to="/create-article" style={linkStyle}>Create Article</Link>
+                            {/* ✅ USER NAME */}
+                            <span style={{ color: "#f4a742" }}>
+                                👤 {user?.username || "User"}
+                            </span>
 
                             <button onClick={handleLogout} style={btnStyle}>
                                 Logout
