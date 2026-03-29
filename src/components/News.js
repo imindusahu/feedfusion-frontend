@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getNews } from "../services/api";
-
+import "../App.css";
 function News() {
     const [articles, setArticles] = useState([]);
 
@@ -18,7 +18,7 @@ function News() {
             <h2>Latest News</h2>
 
             {articles.map((item, index) => (
-                <div key={index} style={{ marginBottom: "20px" }}>
+                <div key={index} className="card-hover" style={{ marginBottom: "20px" }}>
                     <h3>{item.title}</h3>
                     <p>{item.description}</p>
                     <a href={item.url} target="_blank" rel="noreferrer">

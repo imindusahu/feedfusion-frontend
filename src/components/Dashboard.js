@@ -1,9 +1,12 @@
 import { useEffect, useState, useCallback } from "react";
 import { getNews } from "../services/api";
+import { saveArticle } from "../services/api";
+import "../App.css";
 
 function Dashboard() {
     const [articles, setArticles] = useState([]);
     const [category, setCategory] = useState("technology");
+
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -55,6 +58,7 @@ function Dashboard() {
                             placeholder="Search..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
+                            onKeyDown={(e) => { if (e.key === "Enter") fetchArticles(); }}
                             style={{
                                 padding: "8px",
                                 borderRadius: "6px",
@@ -117,18 +121,19 @@ function Dashboard() {
 
                     {/* ❌ No Data */}
                     {!loading && articles.length === 0 && (
-                        <p>No articles found</p>
+                        <p>No articles found 😢</p>
                     )}
 
                     {/* 📰 Cards */}
                     {articles.map((item, index) => (
+
                         <div
                             key={index}
+                            className="card-hover"
                             style={{
                                 borderRadius: "12px",
                                 overflow: "hidden",
                                 boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-                                transition: "0.3s",
                                 background: "#fff"
                             }}
                         >
@@ -147,23 +152,46 @@ function Dashboard() {
 
                             {/* 📄 Content */}
                             <div style={{ padding: "15px" }}>
-                                <h3>{item.title}</h3>
+                                <h4 style={{ fontSize: "18px" }}>{item.title}</h4>
+
                                 <p style={{ fontSize: "14px", color: "#555" }}>
                                     {item.description}
                                 </p>
 
-                                <a
-                                    href={item.url}
-                                    target="_blank"
-                                    rel="noreferrer"
+                                {/* 🔥 ACTION BUTTONS ROW */}
+                                <div
                                     style={{
-                                        color: "#f4a742",
-                                        textDecoration: "none",
-                                        fontWeight: "bold"
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                        marginTop: "15px"
                                     }}
                                 >
-                                    Read More →
-                                </a>
+                                    {/* Read More */}
+                                    <a
+                                        href={item.url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        style={{
+                                            color: "#f4a742",
+                                            textDecoration: "none",
+                                            fontWeight: "bold"
+                                        }}
+                                    >
+                                        Read More →
+                                    </a>
+
+                                    {/* Save Button (Styled) */}
+                                    <button style={{
+                                        className: "save-btn",
+                                        background: "transparent",
+                                        border: "none",
+                                        fontSize: "18px",
+                                        cursor: "pointer"
+                                    }}>
+                                        ⭐
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))}
