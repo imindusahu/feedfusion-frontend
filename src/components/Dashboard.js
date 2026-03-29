@@ -31,7 +31,8 @@ function News() {
     // SAVE HANDLER FIXED
     const handleSave = async (item) => {
         try {
-            await createArticle(item);
+
+            await createArticle({ title: item.title, content: item.description });
             toast.success("Article Saved!");
         } catch (err) {
             console.error(err);

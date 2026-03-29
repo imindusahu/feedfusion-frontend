@@ -83,21 +83,3 @@ export const getNews = async (category = "", search = "") => {
         return [];
     }
 };
-
-// SAVE ARTICLE
-// export const saveArticle = async (data) => {
-//     try {
-//         const res = await API.post("/articles", data);
-//         return res.data;
-//     }
-//     catch (error) {
-//         console.error("Error Creating Article:", error);
-//         return [];
-//     }
-// };
-
-// export const getSavedArticles = () =>
-//     API.get("/articles");
-
-// export const deleteArticle = (id) =>
-//     API.delete(`/articles/${id}`);
