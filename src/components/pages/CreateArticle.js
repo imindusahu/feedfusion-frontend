@@ -8,8 +8,8 @@ function CreateArticle() {
     const [form, setForm] = useState({
         title: "",
         content: "",
-        // image: "",
-        // url: ""
+        image_url: "",
+        source_url: ""
     });
 
     const handleChange = (e) => {
@@ -53,21 +53,21 @@ function CreateArticle() {
                     required
                 />
 
-                {/* <input
+                <input
                     className="form-control mb-2"
-                    name="image"
+                    name="image_url"
                     placeholder="Image URL"
-                    value={form.image}
+                    value={form.image_url}
                     onChange={handleChange}
-                /> */}
+                />
 
-                {/* <input
+                <input
                     className="form-control mb-2"
-                    name="url"
+                    name="source_url"
                     placeholder="Article URL"
-                    value={form.url}
+                    value={form.source_url}
                     onChange={handleChange}
-                /> */}
+                />
 
                 <button className="btn btn-success">
                     Create Article

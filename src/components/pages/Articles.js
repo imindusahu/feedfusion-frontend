@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { getArticles, getNews } from "../../services/api";
+import { getArticles } from "../../services/api";
 import "../../App.css";
 
 function Article() {
@@ -15,12 +15,17 @@ function Article() {
 
         let data;
 
-        if (search.trim()) {
+        if (search !== "") {
             // 🔍 Search mode → category ignore
-            data = await getArticles("", search);
-        } else {
-            // 📂 Category mode
+            data = await getArticles(search);
+        }
+        else if (category === "all") {
+            // 🌐 All mode
             data = await getArticles();
+        }
+        else {
+            setSearch(category); // 🔥 Clear search when category is selected
+            data = await getArticles(search);
         }
 
         setArticles(data || []);
@@ -82,7 +87,7 @@ function Article() {
                 </div>
 
                 {/* 📂 Categories */}
-                {/* <div style={{ marginTop: "15px" }}>
+                <div style={{ marginTop: "15px" }}>
                     {["all", "technology", "business", "health", "sports"].map((cat) => (
                         <button
                             key={cat}
@@ -103,7 +108,7 @@ function Article() {
                             {cat.toUpperCase()}
                         </button>
                     ))}
-                </div> */}
+                </div>
 
                 {/* 📰 Grid */}
                 <div

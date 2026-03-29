@@ -42,15 +42,20 @@ export const loginUser = async (loginData) => {
 
 // ---------------- ARTICLES ----------------
 
-export const getArticles = async () => {
+export const getArticles = async (search = "") => {
     try {
-        const response = await API.get("/articles");
+        const response = await API.get("/articles", {
+            params: {
+                search: search
+            }
+        });
         return response.data;
     } catch (error) {
-        console.error("Error fetching news:", error);
+        console.error("Error fetching articles:", error);
         return [];
     }
 };
+
 
 export const createArticle = async (data) => {
     try {
