@@ -72,14 +72,28 @@ export const createArticle = async (data) => {
     }
 };
 
-export const deleteArticle = async (data) => {
-
+// 🗑️ DELETE ARTICLE
+export const deleteArticle = async (id) => {
+    try {
+        const response = await API.delete(`/articles/${id}`);
+        return response.data; // { message: "Article deleted successfully" }
+    } catch (error) {
+        console.error("Error deleting article:", error);
+        throw error;
+    }
 };
 
-export const updateArticle = async (data) => {
 
+// ✏️ UPDATE ARTICLE
+export const updateArticle = async (id, data) => {
+    try {
+        const response = await API.put(`/articles/${id}`, data);
+        return response.data; // updated article
+    } catch (error) {
+        console.error("Error updating article:", error);
+        throw error;
+    }
 };
-
 
 // ---------------- NEWS ----------------
 

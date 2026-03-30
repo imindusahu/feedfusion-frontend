@@ -1,11 +1,13 @@
 import { useEffect, useState, useCallback } from "react";
-import { getArticles } from "../../services/api";
+import { getArticles, deleteArticle } from "../../services/api";
 import "../../App.css";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function Article() {
     const [articles, setArticles] = useState([]);
     const [category, setCategory] = useState("technology");
-
+    const navigate = useNavigate();
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -35,6 +37,25 @@ function Article() {
     useEffect(() => {
         fetchArticles();
     }, [fetchArticles]);
+
+    // 🗑️ DELETE
+    const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure?")) return;
+
+        try {
+            const res = await deleteArticle(id);
+            toast.success(res.message);
+            fetchArticles();
+
+        } catch (err) {
+            toast.error(err.response?.data?.detail);
+        }
+    };
+
+    // ✏️ EDIT → redirect
+    const handleEdit = (id) => {
+        navigate(`/edit-article/${id}`);
+    };
 
     return (
         <div style={{ background: "#f5f5f5", minHeight: "100vh", padding: "30px" }}>
@@ -194,6 +215,20 @@ function Article() {
                                         cursor: "pointer"
                                     }}>
                                         ⭐
+                                    </button>
+
+                                    <button
+                                        className="btn btn-warning me-2"
+                                        onClick={() => handleEdit(item.id)}
+                                    >
+                                        Edit
+                                    </button>
+
+                                    <button
+                                        className="btn btn-danger"
+                                        onClick={() => handleDelete(item.id)}
+                                    >
+                                        Delete
                                     </button>
                                 </div>
                             </div>
