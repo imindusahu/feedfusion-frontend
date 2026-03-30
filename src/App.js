@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import "./api/interceptor"; // Import interceptor to set up API interceptors
 import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";

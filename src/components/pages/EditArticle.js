@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getArticles, updateArticle, } from "../../services/api";
+import { getArticles, updateArticle, } from "../../api/article";
 import { toast } from "react-toastify";
 
 function EditArticle() {

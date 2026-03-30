@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import { isAuthenticated, logout } from "../utils/auth";
+import { isAuthenticated, logout, getProfile } from "../api/auth";
 import { useEffect, useState } from "react";
-import { getProfile } from "../services/api";
 
 const Navbar = () => {
     const navigate = useNavigate();

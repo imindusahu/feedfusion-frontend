@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
-import { getNews, createArticle } from "../services/api";
+import { getNews } from "../api/news";
+import { createArticle } from "../api/article";
 import { toast } from "react-toastify";
 import "../App.css";
 

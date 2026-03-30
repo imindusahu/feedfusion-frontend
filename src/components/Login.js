@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginUser } from "../services/api"; // ⚠️ IMPORTANT
+import { loginUser } from "../api/auth";
 import { useNavigate } from "react-router-dom";
 import "../styles/auth.css";
 import { toast } from "react-toastify";
@@ -16,7 +16,7 @@ const Login = () => {
         e.preventDefault();
         try {
             const res = await loginUser(form); // API call
-            localStorage.setItem("token", res.data.access_token);
+            localStorage.setItem("access_token", res.data.access_token);
             toast.success("Login successful!");
             navigate("/dashboard");
         } catch (err) {

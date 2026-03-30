@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createArticle } from "../../services/api";
+import { createArticle } from "../../api/article";
 import { toast } from "react-toastify";
 function CreateArticle() {
     const navigate = useNavigate();

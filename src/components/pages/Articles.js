@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { getArticles, deleteArticle } from "../../services/api";
+import { getArticles, deleteArticle } from "../../api/article";
 import "../../App.css";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
